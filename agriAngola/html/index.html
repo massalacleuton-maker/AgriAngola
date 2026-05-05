@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriAngola</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>AgriAngola</h1>
+        <nav>
+            <ul>
+                <li><a href="">home</a></li>
+                <li><a href="sobre.html">sobre nos</a></li>
+                <li><a href=""></a></li>
+                <a href="registrar.html"><button>registrar-se</button></a>
+            </ul>
+        </nav>
+    </header>
+    <section id="initi">
+     <center>    <p>AgriAngola</p>
+       <h1>transformando ideias em <br> Experiencias Digitais incriveis</h1>
+        <p>Riqueza do nosso chão, direto para a sua mão.</p>
+    </center>
+    </section>
+    <section id="services">
+    <div class="services-header">
+        <p>O que fazemos</p>
+        <h2>Nossos Serviços Especializados</h2>
+    </div>
+
+    <div class="servicos-container">
+        <!-- Serviço 1 -->
+        <div class="card-servico">
+            <div class="icon">🛒</div>
+            <h3>Marketplace do Produtor</h3>
+            <p>Conectamos colheitas do interior diretamente aos mercados das cidades, eliminando intermediários e garantindo frescor.</p>
+        </div>
+
+        <!-- Serviço 2 -->
+        <div class="card-servico">
+            <div class="icon">📊</div>
+            <h3>Gestão Digital (Smart Farming)</h3>
+            <p>Sistemas modernos para controle de estoque, plantio e produtividade, tudo na palma da mão do agricultor.</p>
+        </div>
+
+        <!-- Serviço 3 -->
+        <div class="card-servico">
+            <div class="icon">🌐</div>
+            <h3>Vitrine Digital Agrícola</h3>
+            <p>Criação de sites e catálogos premium para que produtores locais alcancem visibilidade nacional e internacional.</p>
+        </div>
+
+        <!-- Serviço 4 -->
+        <div class="card-servico">
+            <div class="icon">💡</div>
+            <h3>Consultoria em E-Agro</h3>
+            <p>Treinamentos especializados para digitalizar o agronegócio e modernizar os pagamentos no campo angolano.</p>
+        </div>
+    </div>
+</section>
+<script>
+    const { Client } = require('pg'); // Biblioteca para PostgreSQL
+
+const client = new Client({
+  connectionString: 'sua_url_de_conexao_sql'
+});
+
+async function salvarProduto(nome, preco, provincia) {
+  await client.connect();
+  
+  // Usamos $1, $2 para evitar ataques de SQL Injection!
+  const query = 'INSERT INTO produtos(nome, preco, provincia) VALUES($1, $2, $3)';
+  const values = [nome, preco, provincia];
+
+  try {
+    await client.query(query, values);
+    console.log("Produto da AgriAngola guardado com sucesso!");
+  } catch (err) {
+    console.error("Erro ao salvar:", err.stack);
+  } finally {
+    await client.end();
+  }
+}
+</script>
+<form action="salvar.php" method="POST">
+    <input type="text" name="nome_produto" placeholder="Nome do Produto">
+    <input type="number" name="preco" placeholder="Preço">
+    <button type="submit">Guardar no SQL</button>
+</form>
+<link rel="stylesheet" href="index.php">
+</body>
+</html>
